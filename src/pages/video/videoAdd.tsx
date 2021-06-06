@@ -6,22 +6,22 @@ import { addVideo } from '../../api';
 
 const layout = {
     labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
+    wrapperCol: { span: 16 }
 };
 const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
+    wrapperCol: { offset: 8, span: 16 }
 };
 interface Video {
-    _id: any,
-    id: string,
-    name: string,
-    key: number,
-    age: number,
-    address: string
+    _id: any;
+    id: string;
+    name: string;
+    key: number;
+    age: number;
+    address: string;
 }
 interface IState {
-    data: Video[],
-    isModalVisible: boolean
+    data: Video[];
+    isModalVisible: boolean;
 }
 
 class VideoAdd extends React.Component<any, IState> {
@@ -37,7 +37,7 @@ class VideoAdd extends React.Component<any, IState> {
     setIsModalVisible(isShow: boolean) {
         this.setState({
             isModalVisible: isShow
-        })
+        });
     }
     addRow = () => {
         this.setIsModalVisible(true);
@@ -48,11 +48,11 @@ class VideoAdd extends React.Component<any, IState> {
 
     // };
     onFinish = (values: any) => {
-        addVideo(values).then((res) => {
+        addVideo(values).then(() => {
             this.props.onFinish();
             this.onReset();
             this.setIsModalVisible(false);
-        })
+        });
         console.log(values);
     };
     handleCancel = () => {
@@ -61,12 +61,22 @@ class VideoAdd extends React.Component<any, IState> {
     onReset = () => {
         this.formRef.current!.resetFields();
     };
-    
+
     render() {
         return (
             <>
-                <Modal title="添加一条信息" visible={this.state.isModalVisible} footer={null} onCancel={this.handleCancel}>
-                    <Form {...layout} ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                <Modal
+                    title="添加一条信息"
+                    visible={this.state.isModalVisible}
+                    footer={null}
+                    onCancel={this.handleCancel}
+                >
+                    <Form
+                        {...layout}
+                        ref={this.formRef}
+                        name="control-ref"
+                        onFinish={this.onFinish}
+                    >
                         <Form.Item name="name" label="姓名" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
@@ -87,7 +97,7 @@ class VideoAdd extends React.Component<any, IState> {
                     </Form>
                 </Modal>
             </>
-        )
+        );
     }
 }
 

@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
 //import AuthService from './Services/AuthService'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom';
 
-const PrivateRoute = ({ component:Component, ...rest }:any) => {
-    console.log({...rest});
-  // Add your own authentication on the below line.
-  const isLoggedIn = localStorage.token ? true : false;//AuthService.isLoggedIn()
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )
-      }
-    />
-  )
-}
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
+    console.log({ ...rest });
+    // Add your own authentication on the below line.
+    const isLoggedIn = localStorage.token ? true : false; //AuthService.isLoggedIn()
+    return (
+        <Route
+            {...rest}
+            render={(props) =>
+                isLoggedIn ? (
+                    <Component {...props} />
+                ) : (
+                    <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                )
+            }
+        />
+    );
+};
 
-export default PrivateRoute
+export default PrivateRoute;

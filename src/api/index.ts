@@ -1,17 +1,30 @@
-import $axios from '../utils/httpConfig'
+import $axios from '../utils/httpConfig';
 
-export function getVideoList(params?: object) {
+export function getVideoList(params?: Record<string, unknown>): Promise<any> {
     return $axios.get('/videos', { params });
 }
-export function addVideo(data: object) {
+export function addVideo(data: Record<string, unknown>): Promise<void> {
     return $axios.post('/videos', data);
 }
-export function deleteVideo(id: any) {
+export function deleteVideo(id: string | number): Promise<void> {
     return $axios.delete('/videos', { params: { id } });
 }
-export function editVideo(id: any, data: object) {
+interface Video {
+    _id: string | number;
+    id: string;
+    name: string;
+    key: number;
+    age: number;
+    address: string;
+}
+export function editVideo(id: number | string, data: Video): Promise<unknown> {
     return $axios.put('/videos/' + id, data);
 }
-export function login(data: object) {
+
+interface loginParam {
+    username: string;
+    password: string;
+}
+export function login(data: loginParam): Promise<void> {
     return $axios.post('/users/login', data);
 }

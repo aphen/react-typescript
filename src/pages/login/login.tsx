@@ -1,4 +1,3 @@
-
 import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -9,17 +8,21 @@ const LoginForm = () => {
     const history = useHistory();
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
-        login(values).then((res: any) => {
-            console.log(res);
-            if (res.data.status !== 0) {
-                message.error(res.data.errMsg);
-            } else {
-                localStorage.setItem('token', res.data.token);
-                history.push({
-                    pathname: '/'
-                })
-            }
-        })
+        login(values)
+            .then((res: any) => {
+                console.log(res);
+                if (res.data.status !== 0) {
+                    message.error(res.data.errMsg);
+                } else {
+                    localStorage.setItem('token', res.data.token);
+                    history.push({
+                        pathname: '/'
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -33,7 +36,10 @@ const LoginForm = () => {
                 name="username"
                 rules={[{ required: true, message: 'Please input your Username!' }]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Username"
+                />
             </Form.Item>
             <Form.Item
                 name="password"
@@ -50,19 +56,17 @@ const LoginForm = () => {
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
-                    Forgot password
-                </a>
+                <a className="login-form-forgot">Forgot password</a>
             </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     Log in
                 </Button>
-                Or <a href="">register now!</a>
+                Or <a>register now!</a>
             </Form.Item>
         </Form>
     );
 };
 
-export default LoginForm
+export default LoginForm;

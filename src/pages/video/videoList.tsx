@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { Form, Table, Tag, Space, Button, Input, Popconfirm, InputNumber,Typography } from 'antd';
+import { Form, Table, Tag, Space, Button, Input, Popconfirm, InputNumber, Typography } from 'antd';
 //import { ColumnsType } from 'antd/es/table';
 import { FormInstance } from 'antd/lib/form';
 import { getVideoList, deleteVideo, editVideo } from '../../api';
 import VideoAdd from './videoAdd';
 
 interface Video {
-    _id: any,
-    id: string,
-    name: string,
-    key: number,
-    age: number,
-    address: string
+    _id: string | number;
+    id: string;
+    name: string;
+    key: number;
+    age: number;
+    address: string;
 }
 interface IState {
-    data: Video[],
-    isModalVisible: boolean,
-    editingKey: string
+    data: Video[];
+    isModalVisible: boolean;
+    editingKey: string;
 }
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
-    title: any;
+    title: string;
     inputType: 'number' | 'text';
     record: Video;
     index: number;
@@ -31,7 +31,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 class table extends React.Component<any, IState> {
     formRef = React.createRef<FormInstance>();
     editFormRef = React.createRef<FormInstance>();
-    videoRef:any;
+    videoRef: any;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -39,7 +39,7 @@ class table extends React.Component<any, IState> {
             isModalVisible: false,
             editingKey: ''
         };
-        this.videoRef =  React.createRef();
+        this.videoRef = React.createRef();
     }
 
     EditableCell: React.FC<EditableCellProps> = ({
@@ -47,8 +47,8 @@ class table extends React.Component<any, IState> {
         dataIndex,
         title,
         inputType,
-        record,
-        index,
+        //record,
+        //index,
         children,
         ...restProps
     }) => {
@@ -62,9 +62,9 @@ class table extends React.Component<any, IState> {
                         style={{ margin: 0 }}
                         rules={[
                             {
-                                required: dataIndex==='address' ? false : true,
-                                message: `Please Input ${title}!`,
-                            },
+                                required: dataIndex === 'address' ? false : true,
+                                message: `Please Input ${title}!`
+                            }
                         ]}
                     >
                         {inputNode}
@@ -79,7 +79,12 @@ class table extends React.Component<any, IState> {
     isEditing = (record: Video) => record.id === this.state.editingKey;
 
     edit = (record: Partial<Video> & { key: React.Key }) => {
-        this.editFormRef.current?.setFieldsValue({ name: '', age: '', address: '', ...record });
+        this.editFormRef.current?.setFieldsValue({
+            name: '',
+            age: '',
+            address: '',
+            ...record
+        });
         this.setState({ editingKey: record.id || '' });
     };
 
@@ -89,39 +94,38 @@ class table extends React.Component<any, IState> {
 
     save = async (key: React.Key) => {
         try {
-
             const row = (await this.editFormRef.current!.validateFields()) as Video;
             const newData = [...this.state.data];
-            const index = newData.findIndex(item => key === item.id);
+            const index = newData.findIndex((item) => key === item.id);
 
             editVideo(newData[index]._id, row).then(() => {
                 if (index > -1) {
                     const item = newData[index];
                     newData.splice(index, 1, {
                         ...item,
-                        ...row,
+                        ...row
                     });
-                    this.setState({ data: newData })
-    
+                    this.setState({ data: newData });
+
                     this.setState({ editingKey: '' });
                 } else {
-                    console.log('不存在？？？')
+                    console.log('不存在？？？');
                     newData.push(row);
-                    this.setState({ data: newData })
+                    this.setState({ data: newData });
                     this.setState({ editingKey: '' });
                 }
-            })
+            });
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
     };
 
-    columns:any[] = [
+    columns: any[] = [
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            editable: true,
+            editable: true
             //render: (text: String) => <i>{text}</i>,
         },
         {
@@ -154,58 +158,67 @@ class table extends React.Component<any, IState> {
                         );
                     })}
                 </>
-            ),
+            )
         },
         {
             title: 'Action',
             key: 'action',
             render: (text: any, record: any) => {
                 const editable = this.isEditing(record);
-                return <Space size="middle">
-                    {editable ? (
-                        <span>
-                            <a onClick={() => this.save(record.id)} style={{ marginRight: 8 }}>
-                                Save
-                            </a>
-                            <Popconfirm title="Sure to cancel?" onConfirm={this.cancel}>
-                                <a>Cancel</a>
-                            </Popconfirm>
-                        </span>
-                    ) : (<Typography.Link disabled={this.state.editingKey !== ''} onClick={() => this.edit(record)}>
-                        Edit
-                    </Typography.Link>)}
+                return (
+                    <Space size="middle">
+                        {editable ? (
+                            <span>
+                                <a onClick={() => this.save(record.id)} style={{ marginRight: 8 }}>
+                                    Save
+                                </a>
+                                <Popconfirm title="Sure to cancel?" onConfirm={this.cancel}>
+                                    <a>Cancel</a>
+                                </Popconfirm>
+                            </span>
+                        ) : (
+                            <Typography.Link
+                                disabled={this.state.editingKey !== ''}
+                                onClick={() => this.edit(record)}
+                            >
+                                Edit
+                            </Typography.Link>
+                        )}
 
-                    <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record._id)}>
-                        <a>Delete</a>
-                    </Popconfirm>
-                </Space>
-            },
-        },
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => this.handleDelete(record._id)}
+                        >
+                            <a>Delete</a>
+                        </Popconfirm>
+                    </Space>
+                );
+            }
+        }
     ];
-    mergedColumns = this.columns.map(col => {
+    mergedColumns = this.columns.map((col) => {
         if (!col.editable) {
-          return col;
+            return col;
         }
         return {
-          ...col,
-          onCell: (record: Video) => ({
-            record,
-            inputType: col.dataIndex === 'age' ? 'number' : 'text',
-            dataIndex: col.dataIndex,
-            title: col.title,
-            editing: this.isEditing(record),
-          }),
+            ...col,
+            onCell: (record: Video) => ({
+                record,
+                inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                dataIndex: col.dataIndex,
+                title: col.title,
+                editing: this.isEditing(record)
+            })
         };
-      });
+    });
 
     handleDelete = (key: React.Key) => {
         deleteVideo(key).then(() => {
             const data = [...this.state.data];
-            this.setState({ data: data.filter(item => item._id !== key) });
-        })
+            this.setState({ data: data.filter((item) => item._id !== key) });
+        });
         console.log(key);
     };
-
 
     addRow = () => {
         if (this.videoRef && this.videoRef.current) {
@@ -214,15 +227,15 @@ class table extends React.Component<any, IState> {
         }
         //this.setIsModalVisible(true);
     };
-    getVideoListData = () => {
+    getVideoListData = (): void => {
         getVideoList().then((response) => {
             //data = response.data;
             //console.log(data);
             this.setState({
                 data: response.data
-            })
-        })
-    }
+            });
+        });
+    };
 
     componentDidMount() {
         this.getVideoListData();
@@ -235,8 +248,8 @@ class table extends React.Component<any, IState> {
                     <Table
                         components={{
                             body: {
-                                cell: this.EditableCell,
-                            },
+                                cell: this.EditableCell
+                            }
                         }}
                         bordered
                         dataSource={this.state.data}
@@ -248,7 +261,7 @@ class table extends React.Component<any, IState> {
 
                 <VideoAdd ref={this.videoRef} onFinish={this.getVideoListData}></VideoAdd>
             </>
-        )
+        );
     }
 }
 
