@@ -32,7 +32,7 @@ class table extends React.Component<any, IState> {
     formRef = React.createRef<FormInstance>();
     editFormRef = React.createRef<FormInstance>();
     videoRef: any;
-    constructor(props: any) {
+    constructor(props: unknown) {
         super(props);
         this.state = {
             data: [],
@@ -76,9 +76,9 @@ class table extends React.Component<any, IState> {
         );
     };
 
-    isEditing = (record: Video) => record.id === this.state.editingKey;
+    isEditing = (record: Video): boolean => record.id === this.state.editingKey;
 
-    edit = (record: Partial<Video> & { key: React.Key }) => {
+    edit = (record: Partial<Video> & { key: React.Key }): void => {
         this.editFormRef.current?.setFieldsValue({
             name: '',
             age: '',
@@ -88,11 +88,11 @@ class table extends React.Component<any, IState> {
         this.setState({ editingKey: record.id || '' });
     };
 
-    cancel = () => {
+    cancel = (): void => {
         this.setState({ editingKey: '' });
     };
 
-    save = async (key: React.Key) => {
+    save = async (key: React.Key): Promise<void> => {
         try {
             const row = (await this.editFormRef.current!.validateFields()) as Video;
             const newData = [...this.state.data];
@@ -144,7 +144,7 @@ class table extends React.Component<any, IState> {
             title: 'Tags',
             key: 'tags',
             dataIndex: 'tags',
-            render: (tags = []) => (
+            render: (tags = []): JSX.Element => (
                 <>
                     {tags.map((tag: any) => {
                         let color = tag.length > 5 ? 'geekblue' : 'green';
@@ -163,7 +163,7 @@ class table extends React.Component<any, IState> {
         {
             title: 'Action',
             key: 'action',
-            render: (text: any, record: any) => {
+            render: (text: unknown, record: any): JSX.Element => {
                 const editable = this.isEditing(record);
                 return (
                     <Space size="middle">
@@ -212,7 +212,7 @@ class table extends React.Component<any, IState> {
         };
     });
 
-    handleDelete = (key: React.Key) => {
+    handleDelete = (key: React.Key): void => {
         deleteVideo(key).then(() => {
             const data = [...this.state.data];
             this.setState({ data: data.filter((item) => item._id !== key) });
@@ -220,7 +220,7 @@ class table extends React.Component<any, IState> {
         console.log(key);
     };
 
-    addRow = () => {
+    addRow = (): void => {
         if (this.videoRef && this.videoRef.current) {
             this.videoRef.current.addRow();
             //console.log(text);
@@ -237,10 +237,10 @@ class table extends React.Component<any, IState> {
         });
     };
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.getVideoListData();
     }
-    render() {
+    render(): JSX.Element {
         return (
             <>
                 <Button onClick={this.addRow}>添加一行</Button>

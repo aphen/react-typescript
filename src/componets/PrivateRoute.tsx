@@ -1,8 +1,9 @@
-import React from 'react';
+//import React, { Props } from 'react';
 //import AuthService from './Services/AuthService'
 import { Redirect, Route } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, ...rest }: any) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const PrivateRoute = ({ component: Component, ...rest }: any): JSX.Element => {
     console.log({ ...rest });
     // Add your own authentication on the below line.
     const isLoggedIn = localStorage.token ? true : false; //AuthService.isLoggedIn()

@@ -6,7 +6,7 @@ import Login from './pages/login/login';
 import SiderBar from './pages/layout';
 import PrivateRoute from './componets/PrivateRoute';
 
-function App() {
+function App(): JSX.Element {
     return (
         <>
             <Switch>

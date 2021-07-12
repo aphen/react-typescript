@@ -26,7 +26,7 @@ interface IState {
 
 class VideoAdd extends React.Component<any, IState> {
     formRef = React.createRef<FormInstance>();
-    constructor(props: any) {
+    constructor(props: unknown) {
         super(props);
         this.state = {
             data: [],
@@ -34,12 +34,12 @@ class VideoAdd extends React.Component<any, IState> {
         };
     }
 
-    setIsModalVisible(isShow: boolean) {
+    setIsModalVisible(isShow: boolean): void {
         this.setState({
             isModalVisible: isShow
         });
     }
-    addRow = () => {
+    addRow = (): void => {
         this.setIsModalVisible(true);
     };
 
@@ -47,7 +47,7 @@ class VideoAdd extends React.Component<any, IState> {
     //     console.log(this.formRef.current)
 
     // };
-    onFinish = (values: any) => {
+    onFinish = (values: Record<string, unknown>): void => {
         addVideo(values).then(() => {
             this.props.onFinish();
             this.onReset();
@@ -55,14 +55,14 @@ class VideoAdd extends React.Component<any, IState> {
         });
         console.log(values);
     };
-    handleCancel = () => {
+    handleCancel = (): void => {
         this.setIsModalVisible(false);
     };
-    onReset = () => {
+    onReset = (): void => {
         this.formRef.current!.resetFields();
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <>
                 <Modal
