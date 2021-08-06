@@ -42,6 +42,7 @@ module.exports = {
     rules: {
         //在Rules中可以自定义你的React代码编码规范。
         //"jsx-a11y/anchor-is-valid":"off"
-        '@typescript-eslint/no-explicit-any': 'off'
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off'
     }
 };
