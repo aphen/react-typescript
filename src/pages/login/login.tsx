@@ -4,10 +4,10 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '../../api';
 import '../../styles/login.less';
 
-const LoginForm = () => {
+const LoginForm = (): JSX.Element => {
     const history = useHistory();
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        console.log("Received values of form: ", values);
         login(values)
             .then((res: any) => {
                 console.log(res);
