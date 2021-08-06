@@ -71,15 +71,10 @@
     }
   },
   "lint-staged": {
-        "*": [
-    
-            "npm run prettier", 
-    
-            "npm run lint",
-    
-            "git add ."
-    
-        ]
-    
-      }
+    "*": [
+      "npm run prettier",
+      "npm run lint",
+      "git add ."
+    ]
+  }
 }
