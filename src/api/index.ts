@@ -1,4 +1,4 @@
-import $axios from "../utils/httpConfig";
+import $axios from "../utils/httpConfig"; 
 
 export function getVideoList(params?: Record<string, unknown>): Promise<any> {
     return $axios.get('/videos', { params });

@@ -37,7 +37,8 @@
         "eject": "react-scripts eject",
         "lint-fix": "eslint --ext .js,.ts,.tsx src --fix",
         "lint": "eslint .",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "precommit": "lint-staged"
     },
     "eslintConfig": {
         "extends": [
