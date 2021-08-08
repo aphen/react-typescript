@@ -67,6 +67,21 @@
         "husky": "^7.0.1",
         "lint-staged": "^11.1.2"
     },
+    "commitlint": {
+        "rules": {
+            "references-empty": [
+                2,
+                "never"
+            ]
+        },
+        "parserPreset": {
+            "parserOpts": {
+                "issuePrefixes": [
+                    "PROJ-"
+                ]
+            }
+        }
+    },
     "lint-staged": {
         "*": [
             "npm run prettier",
