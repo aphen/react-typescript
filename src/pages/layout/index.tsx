@@ -40,8 +40,15 @@ class SiderBar extends React.Component<any, any> {
                             <Link to="/videoList">视频列表</Link>
                         </Menu.Item>
                         <SubMenu key="sub4" icon={<SettingOutlined />} title="Navigation Three">
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
+                            <Menu.Item key="9">
+                                <Link to="/vueapp">Option 9</Link>
+                            </Menu.Item>
+                            <Menu.Item key="91">
+                                <Link to="/vueapp/about">Option 91</Link>
+                            </Menu.Item>
+                            <Menu.Item key="10">
+                                <Link to="/reactapp">Option 10</Link>
+                            </Menu.Item>
                             <Menu.Item key="11">Option 11</Menu.Item>
                             <Menu.Item key="12">Option 12</Menu.Item>
                         </SubMenu>
@@ -63,6 +70,7 @@ class SiderBar extends React.Component<any, any> {
 
                     <Content
                         className="site-layout-background"
+                        id="subContainer"
                         style={{
                             margin: '24px 16px',
                             padding: 24,
