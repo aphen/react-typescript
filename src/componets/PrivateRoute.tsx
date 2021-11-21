@@ -6,7 +6,7 @@ import { Redirect, Route } from 'react-router-dom';
 const PrivateRoute = ({ component: Component, ...rest }: any): JSX.Element => {
     console.log({ ...rest });
     // Add your own authentication on the below line.
-    const isLoggedIn = localStorage.token ? true : false; //AuthService.isLoggedIn()
+    const isLoggedIn = true; //localStorage.token ? true : false; //AuthService.isLoggedIn()
     return (
         <Route
             {...rest}

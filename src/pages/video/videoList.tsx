@@ -238,7 +238,7 @@ class table extends React.Component<any, IState> {
     };
 
     componentDidMount(): void {
-        this.getVideoListData();
+        // this.getVideoListData();
     }
     render(): JSX.Element {
         return (
