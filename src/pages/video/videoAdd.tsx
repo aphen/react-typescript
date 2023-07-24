@@ -67,7 +67,7 @@ class VideoAdd extends React.Component<any, IState> {
             <>
                 <Modal
                     title="添加一条信息"
-                    visible={this.state.isModalVisible}
+                    // visible={this.state.isModalVisible}
                     footer={null}
                     onCancel={this.handleCancel}
                 >
