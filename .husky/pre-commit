@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm prettier
-pnpm lint
+npm run prettier
+npm run lint
 npx lint-staged --allow-empty

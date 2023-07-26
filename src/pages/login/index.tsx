@@ -1,12 +1,23 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from '../../api';
 import '../../styles/login.less';
 
-const LoginForm = (): JSX.Element => {
-    const history = useHistory();
-    const onFinish = (values: any) => {
+type Login = {
+    username: string;
+    password: string;
+    remember: boolean;
+};
+
+// type Response = {
+//     status: number;
+//     data: object;
+// }
+
+const LoginForm = (): React.ReactNode => {
+    const navigate = useNavigate();
+    const onFinish = (values: Login) => {
         console.log('Received values of form: ', values);
         login(values)
             .then((res: any) => {
@@ -15,9 +26,7 @@ const LoginForm = (): JSX.Element => {
                     message.error(res.data.errMsg);
                 } else {
                     localStorage.setItem('token', res.data.token);
-                    history.push({
-                        pathname: '/'
-                    });
+                    navigate('/video');
                 }
             })
             .catch((error) => {

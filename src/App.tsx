@@ -1,19 +1,24 @@
+import { useRoutes } from 'react-router-dom';
 import React from 'react';
-
-import { Route, Switch } from 'react-router-dom';
 import './App.less';
-import Login from './pages/login/login';
-import SiderBar from './pages/layout';
-import PrivateRoute from './componets/PrivateRoute';
+// import Login from './pages/login';
+// import SiderBar from './pages/layout';
+// import PrivateRoute from './componets/PrivateRoute';
+import { routes } from './routes';
+import { RouterBeforeEach } from './componets/RouterBeforeEach';
 
 function App(): JSX.Element {
+    const elements = useRoutes(routes);
     return (
-        <>
-            <Switch>
-                <Route exact path="/login" component={Login} />
-                <PrivateRoute path="/" component={SiderBar} />
-            </Switch>
-        </>
+        <React.Suspense>
+            <RouterBeforeEach>{elements}</RouterBeforeEach>
+        </React.Suspense>
+        // <>
+        //     <Routes>
+        //         <Route path="/login" element={<Login />} />
+        //         <PrivateRoute path="/" element={<SiderBar />} />
+        //     </Routes>
+        // </>
     );
 }
 

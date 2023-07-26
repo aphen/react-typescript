@@ -12,7 +12,7 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 }
 };
 interface Video {
-    _id: any;
+    _id: string;
     id: string;
     name: string;
     key: number;

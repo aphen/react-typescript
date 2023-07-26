@@ -1,7 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Layout, Menu, Button } from 'antd';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -11,7 +10,7 @@ import {
     //UploadOutlined,
 } from '@ant-design/icons';
 
-import videoList from '../video/videoList';
+import VideoList from '../video/videoList';
 
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
@@ -77,11 +76,11 @@ class SiderBar extends React.Component<any, any> {
                             minHeight: 280
                         }}
                     >
-                        <Switch>
-                            <Route path="/videoList" component={videoList} strict exact />
+                        <Routes>
+                            <Route path="/videoList" element={<VideoList />} />
                             <Route path="/dashboard/analysis"></Route>
-                            <Route path="/" component={videoList} />
-                        </Switch>
+                            <Route path="/" element={<VideoList />} />
+                        </Routes>
                     </Content>
                 </Layout>
             </Layout>
@@ -91,4 +90,4 @@ class SiderBar extends React.Component<any, any> {
 
 //ReactDOM.render(<SiderDemo />, mountNode);
 
-export default withRouter(SiderBar);
+export default SiderBar;
