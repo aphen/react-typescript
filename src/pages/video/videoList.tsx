@@ -163,7 +163,7 @@ class table extends React.Component<any, IState> {
         {
             title: 'Action',
             key: 'action',
-            render: (text: unknown, record: any): JSX.Element => {
+            render: (_text: unknown, record: any): JSX.Element => {
                 const editable = this.isEditing(record);
                 return (
                     <Space size="middle">
