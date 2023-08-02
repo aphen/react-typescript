@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import bcrypt from 'bcryptjs';
 import { login } from '../../api';
 import '../../styles/login.less';
 
@@ -18,6 +19,9 @@ type Login = {
 const LoginForm = (): React.ReactNode => {
     const navigate = useNavigate();
     const onFinish = (values: Login) => {
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(values.password, salt);
+        values.password = hash;
         console.log('Received values of form: ', values);
         login(values)
             .then((res: any) => {

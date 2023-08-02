@@ -1,9 +1,12 @@
-// import React from 'react';
+import { lazy } from 'react';
 import type { ReactNode } from 'react';
-// const Login = React.lazy(() => import('../pages/login'));
+// eslint-disable-next-line react-refresh/only-export-components
+const Login = lazy(() => import('../pages/login'));
 // const VideoList = React.lazy(() => import('../pages/video/videoList'));
-import Login from '../pages/login';
-import VideoList from '../pages/video/videoList';
+// import Login from '../pages/login';
+import Sidebar from '../pages/layout';
+import Blog from '../pages/blog';
+import Video from '../pages/video/videoList';
 
 interface Route {
     path: string;
@@ -14,14 +17,31 @@ interface Route {
 }
 export const routes: Route[] = [
     {
-        path: '/',
+        path: '/login',
         name: 'login',
-        element: <Login />,
-        auth: true
+        element: <Login />
     },
     {
-        path: '/video',
-        name: 'Video',
-        element: <VideoList />
+        path: '/',
+        name: 'layout',
+        element: <Sidebar />,
+        children: [
+            {
+                path: '/video',
+                name: 'Video',
+                element: <Video />,
+                auth: true
+            },
+            {
+                path: '/blog',
+                name: 'Blog',
+                element: <Blog />
+            },
+            {
+                path: '/nav3',
+                name: 'Blog',
+                element: ''
+            }
+        ]
     }
 ];

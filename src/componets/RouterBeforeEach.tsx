@@ -16,8 +16,8 @@ type Router = any;
 const getCurrentRouterMap = (routers: Router[], path: string): Route => {
     for (const router of routers) {
         if (router.path == path) return router;
-        if (router.child) {
-            const childRouter = getCurrentRouterMap(router.child, path);
+        if (router.children) {
+            const childRouter = getCurrentRouterMap(router.children, path);
             if (childRouter) return childRouter;
         }
     }
@@ -29,7 +29,7 @@ export const RouterBeforeEach = ({ children }: any) => {
     const navigator = useNavigate();
 
     useEffect(() => {
-        const isLogin = true;
+        const isLogin = localStorage.getItem('token');
         const router = getCurrentRouterMap(routes, location.pathname);
         if (!isLogin && router.auth) {
             navigator('/login');

@@ -1,92 +1,104 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Layout, Menu, Button } from 'antd';
-import { Routes, Route, Link } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
     UserOutlined,
-    SettingOutlined
-    //VideoCameraOutlined,
-    //UploadOutlined,
+    // SettingOutlined
+    VideoCameraOutlined,
+    UploadOutlined
 } from '@ant-design/icons';
 
-import VideoList from '../video/videoList';
-
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
 
-class SiderBar extends React.Component<any, any> {
-    state = {
-        collapsed: false
-    };
-
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed
-        });
-    };
-    logout = () => {
+const SiderBar: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [collapsed, setCollapsed] = useState(false);
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+    const logout = () => {
         localStorage.removeItem('token');
-        this.props.history.push('/login');
+        navigate('/login');
     };
-    render() {
-        return (
-            <Layout>
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo" />
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1" icon={<UserOutlined />}>
-                            <Link to="/videoList">视频列表</Link>
-                        </Menu.Item>
-                        <SubMenu key="sub4" icon={<SettingOutlined />} title="Navigation Three">
-                            <Menu.Item key="9">
-                                <Link to="/vueapp">Option 9</Link>
-                            </Menu.Item>
-                            <Menu.Item key="91">
-                                <Link to="/vueapp/about">Option 91</Link>
-                            </Menu.Item>
-                            <Menu.Item key="10">
-                                <Link to="/reactapp">Option 10</Link>
-                            </Menu.Item>
-                            <Menu.Item key="11">Option 11</Menu.Item>
-                            <Menu.Item key="12">Option 12</Menu.Item>
-                        </SubMenu>
-                    </Menu>
-                </Sider>
-                <Layout className="site-layout">
-                    <Header className="site-layout-background" style={{ padding: 0 }}>
-                        {React.createElement(
-                            this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                            {
-                                className: 'trigger',
-                                onClick: this.toggle
-                            }
-                        )}
-                        <Button className="logout" onClick={this.logout}>
-                            退出
-                        </Button>
-                    </Header>
+    const changeHref = ({ key }: { key: string }) => {
+        navigate(`/${key}`, { replace: true });
+    };
 
-                    <Content
-                        className="site-layout-background"
-                        id="subContainer"
+    useEffect(() => {
+        console.log([location.pathname.slice(1)]);
+        setSelectedKeys([location.pathname.slice(1)]);
+    }, [location.pathname]);
+
+    return (
+        <Layout>
+            <Sider trigger={null} collapsible collapsed={collapsed}>
+                <div className="logo" />
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    selectedKeys={selectedKeys}
+                    onClick={changeHref}
+                    items={[
+                        {
+                            key: 'video',
+                            icon: <UserOutlined />,
+                            label: '视频列表'
+                        },
+                        {
+                            key: 'blog',
+                            icon: <VideoCameraOutlined />,
+                            label: 'nav 2'
+                        },
+                        {
+                            key: 'nav3',
+                            icon: <UploadOutlined />,
+                            label: 'nav 3'
+                        }
+                    ]}
+                />
+            </Sider>
+            <Layout className="site-layout">
+                <Header className="site-layout-background" style={{ padding: 0 }}>
+                    <Button
+                        type="text"
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                        onClick={() => setCollapsed(!collapsed)}
                         style={{
-                            margin: '24px 16px',
-                            padding: 24,
-                            minHeight: 280
+                            fontSize: '16px',
+                            width: 64,
+                            height: 64
                         }}
-                    >
-                        <Routes>
-                            <Route path="/videoList" element={<VideoList />} />
-                            <Route path="/dashboard/analysis"></Route>
-                            <Route path="/" element={<VideoList />} />
-                        </Routes>
-                    </Content>
-                </Layout>
+                    />
+                    <Button className="logout" onClick={logout}>
+                        退出
+                    </Button>
+                </Header>
+
+                <Content
+                    className="site-layout-background"
+                    id="subContainer"
+                    style={{
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280
+                    }}
+                >
+                    <Outlet />
+                    {/* {routers} */}
+                    {/* <Routes>
+                        { routes.forEach(item => {
+                            if(item.name='layout')
+                                return <Route path={item.path} element={item.element} />;
+                        })}
+                        {/* <Route path="/video" element={<VideoList />} />
+                        <Route path="/blog" element={<Blog />}></Route> */}
+                    {/* </Routes> */}
+                </Content>
             </Layout>
-        );
-    }
-}
+        </Layout>
+    );
+};
 
 //ReactDOM.render(<SiderDemo />, mountNode);
 
