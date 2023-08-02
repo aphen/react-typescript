@@ -229,8 +229,8 @@ class table extends React.Component<any, IState> {
     };
     getVideoListData = (): void => {
         getVideoList().then((response) => {
-            //data = response.data;
-            //console.log(data);
+            // let data = response.data;
+            // console.log(data);
             this.setState({
                 data: response.data
             });
@@ -238,7 +238,7 @@ class table extends React.Component<any, IState> {
     };
 
     componentDidMount(): void {
-        // this.getVideoListData();
+        this.getVideoListData();
     }
     render(): JSX.Element {
         return (
